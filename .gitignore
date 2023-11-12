@@ -1,6 +1,9 @@
 # Build
 build
 
+# Visual Studio
+.vs
+
 # CLion
 .idea
 
