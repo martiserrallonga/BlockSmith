@@ -1,4 +1,6 @@
-#include "SDL.h"
+#include <SDL.h>
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 int main() {
 	// Initialize SDL
@@ -7,8 +9,20 @@ int main() {
 		return -1;
 	}
 
+	std::string configPath = "../config/window.json";
+	std::ifstream configFile(configPath);
+	if (!configFile.is_open()) {
+		SDL_Log("ERROR: File %s not found", configPath.c_str());
+		return 0;
+	}
+	nlohmann::json configJson = nlohmann::json::parse(configFile);
+
+	std::string title = configJson.at("title");
+	int width = configJson.at("width");
+	int height = configJson.at("height");
+
 	// Create a window
-	SDL_Window* window = SDL_CreateWindow("SDL Window", 800, 600, 0);
+	SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, 0);
 
 	if (window == nullptr) {
 		SDL_Log("Window could not be created! SDL Error: %s", SDL_GetError());

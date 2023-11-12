@@ -1,5 +1,8 @@
 # BlockSmith
 
+## Init submodules
+git submodule update --init --recursive
+
 ## Generate project
 cmake -G "Visual Studio 16 2019" -B ./build
 cmake -G "Visual Studio 17 2022" -B ./build
