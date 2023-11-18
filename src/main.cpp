@@ -1,6 +1,7 @@
 #include <SDL.h>
-#include <fstream>
 #include <nlohmann/json.hpp>
+
+#include <fstream>
 
 int main() {
   // Initialize SDL
