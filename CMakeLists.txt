@@ -7,3 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(src)
 add_subdirectory(submodules)
+
+option(BUILD_ADVENT_OF_CODE "Build AdventOfCode project" ON)
+if(BUILD_ADVENT_OF_CODE)
+  add_subdirectory(adventOfCode)
+endif()
