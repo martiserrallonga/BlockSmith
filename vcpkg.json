@@ -1,0 +1,15 @@
+{
+  "dependencies": [
+    {
+      "name": "nlohmann-json"
+    },
+    {
+      "name": "imgui",
+      "default-features": false,
+      "features": ["sdl2-binding", "sdl2-renderer-binding"]
+    },
+    {
+      "name": "sdl2"
+    }
+  ]
+}
