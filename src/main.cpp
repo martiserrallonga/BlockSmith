@@ -1,34 +1,46 @@
-// Dear ImGui: standalone example application for SDL2 + SDL_Renderer
-// (SDL is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics context creation, etc.)
+#define SDL_MAIN_HANDLED
 
-// Learn about Dear ImGui:
-// - FAQ                  https://dearimgui.com/faq
-// - Getting Started      https://dearimgui.com/getting-started
-// - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
-// - Introduction, links and more at the top of imgui.cpp
-
-// Important to understand: SDL_Renderer is an _optional_ component of SDL2.
-// For a multi-platform app consider using e.g. SDL+DirectX on Windows and SDL+OpenGL on Linux/OSX.
+#include "LoggerGetter.h"
+#include "DropdownValue.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_sdlrenderer2.h>
-#include <SDL.h>
 #include <nlohmann/json.hpp>
+#include <SDL.h>
+
+#include <format>
 #include <fstream>
 
-// Main code
-int main(int, char**) {
-	// Setup SDL
+
+int main() {
+#if DEBUG
+	Log::GetLogger().setLogLevel(Log::ELevel::Debug);
+	Log::Debug(std::format("App running in debug mode"));
+#else
+	SetLevel(Log::ELevel::Error);
+#endif
+
+	DropdownValue logLevel(
+		"Log Level",
+		{ "Error", "Warning", "Info", "Debug" },
+		static_cast<int>(Log::GetLogger().getLogLevel()),
+		[](int level) {
+			const auto enumLevel = static_cast<Log::ELevel>(level);
+			auto& logger = Log::GetLogger();
+			logger.setLogLevel(enumLevel);
+			logger.log(enumLevel, "Log level changed!");
+		});
+
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
-		printf("Error: %s\n", SDL_GetError());
+		Log::Error(std::format("Print error {}", SDL_GetError()));
 		return -1;
 	}
 
 	const std::string configPath = "./config/window.json";
 	std::ifstream configFile(configPath);
 	if (!configFile.is_open()) {
-		SDL_Log("ERROR: File %s not found", configPath.c_str());
+		Log::Error(std::format("File {} not found", configPath));
 		return 0;
 	}
 	nlohmann::json configJson = nlohmann::json::parse(configFile);
@@ -54,9 +66,6 @@ int main(int, char**) {
 		SDL_Log("Error creating SDL_Renderer!");
 		return 0;
 	}
-	//SDL_RendererInfo info;
-	//SDL_GetRendererInfo(renderer, &info);
-	//SDL_Log("Current SDL_Renderer: %s", info.name);
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -139,6 +148,12 @@ int main(int, char**) {
 			ImGui::SameLine();
 			ImGui::Text("counter = %d", counter);
 
+			//int level = static_cast<int>(Log::GetLogLevel());
+			//const char* logLevels[4] = { "Error", "Warning", "Info", "Debug" };
+			//ImGui::ListBox("Label", &level, logLevels, 4);
+
+			logLevel.renderInMenu();
+
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 			ImGui::End();
 		}
@@ -156,10 +171,10 @@ int main(int, char**) {
 		ImGui::Render();
 		SDL_RenderSetScale(renderer, io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y);
 		SDL_SetRenderDrawColor(renderer,
-		static_cast<Uint8>(clear_color.x * 255),
-		static_cast<Uint8>(clear_color.y * 255), 
-		static_cast<Uint8>(clear_color.z * 255), 
-		static_cast<Uint8>(clear_color.w * 255)
+			static_cast<Uint8>(clear_color.x * 255),
+			static_cast<Uint8>(clear_color.y * 255),
+			static_cast<Uint8>(clear_color.z * 255),
+			static_cast<Uint8>(clear_color.w * 255)
 		);
 		SDL_RenderClear(renderer);
 		ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
