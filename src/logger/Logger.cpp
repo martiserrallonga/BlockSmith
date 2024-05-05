@@ -1,7 +1,9 @@
 #include "Logger.h"
+
 #include "Clock.h"
 
 #include <iostream>
+
 
 namespace Log
 {
@@ -16,7 +18,13 @@ namespace Log
 		return os << "UNDEFINED";
 	}
 
-	Logger::Logger(const ELevel level) : _currentLevel(level) {
+	Logger::Logger() {
+#if DEBUG
+		_currentLevel = ELevel::Debug;
+#else
+		_currentLevel = ELevel::Warning;
+#endif
+
 		_fileStream.open("logs.txt");
 	}
 

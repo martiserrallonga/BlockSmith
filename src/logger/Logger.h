@@ -17,7 +17,7 @@ namespace Log
 	class Logger
 	{
 	public:
-		explicit Logger(ELevel level = ELevel::Warning);
+		Logger();
 
 		void log(ELevel level, const std::string& msg);
 

@@ -5,3 +5,5 @@ out/
 
 CMakePresets.json
 CMakeSettings.json
+
+*.user

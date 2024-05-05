@@ -10,6 +10,7 @@ class DropdownValue
 public:
 	using Callback = std::function<void(int)>;
 
+	DropdownValue() = default;
 	DropdownValue(std::string label, std::vector<std::string> enumKeys, int defaultValue = 0, Callback callback = nullptr);
 
 	void renderInMenu();
