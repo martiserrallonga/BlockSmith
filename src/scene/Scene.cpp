@@ -16,7 +16,8 @@ namespace Const
 
 Scene::Scene() {
 	_backgroundColor = ImColor(0.45f, 0.55f, 0.60f, 1.00f);
-	addEntity(Entity(consumeId(), "square", Const::kDefaultRect, Const::kDefaultColor));
+
+	initializeFrameBuffer();
 }
 
 void Scene::addEntity(Entity entity) {
@@ -102,10 +103,55 @@ void Scene::renderInMenu() {
 }
 
 void Scene::onWindowShown(int width, int height) {
+	resetFrameBuffer(width, height);
 }
 
 void Scene::onWindowResized(int width, int height) {
+	resetFrameBuffer(width, height);
 }
+
+void Scene::resetFrameBuffer(int width, int height) {
+	_entities.clear();
+	_uniqueId = 0;
+
+	int entitySize = std::min(width / 16, height / 16);
+	int sceneSize = entitySize * 16;
+	SDL_Point sceneOffset{ (width - sceneSize) / 2 , (height - sceneSize) / 2 };
+
+	for (int i = 0; i < _frameBuffer.size(); ++i) {
+		SDL_Point point{ i % 16 , i / 16 };
+		SDL_Point position{ point.x * entitySize + sceneOffset.x, point.y * entitySize + sceneOffset.y };
+		addEntity(Entity(consumeId(), "Pixel", { position.x, position.y, entitySize, entitySize }, _frameBuffer.at(i)));
+	}
+}
+
+void Scene::initializeFrameBuffer() {
+	ImColor Void = { 255,255,255,0 };
+	ImColor Black = { 0,0,0,255 };
+	ImColor White = { 255,255,255,255 };
+	ImColor Green = { 28,148,134,255 };
+	ImColor Red = { 206,52,52,255 };
+
+	_frameBuffer = {
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Green,Green,Black,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Green,Green,Green,Green,Black,Void,
+		Void,Void,Void,Void,Void,Void,Void,Black,Green,Green,Black,Green,Black,Black,Void,Void,
+		Void,Void,Void,Black,Black,Black,Black,Green,Black,Black,Black,Green,Black,Void,Void,Void,
+		Void,Void,Black,Red,Red,Red,Red,Black,Black,Black,Green,Black,Void,Void,Void,Void,
+		Void,Black,Red,Red,Red,Red,Red,Red,Black,Green,Black,Black,Void,Void,Void,Void,
+		Void,Black,Red,Red,Red,Red,Red,Black,Red,Red,Red,Red,Black,Void,Void,Void,
+		Void,Black,Red,White,Red,Red,Black,Red,Red,Red,Red,Red,Red,Black,Void,Void,
+		Void,Black,Red,Red,White,White,Black,Red,Red,Red,Red,Red,Red,Black,Void,Void,
+		Void,Void,Black,Red,Red,Red,Black,Red,White,Red,Red,Red,Red,Black,Void,Void,
+		Void,Void,Void,Black,Black,Black,Black,Red,Red,White,White,Red,Red,Black,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Black,Red,Red,Red,Red,Black,Void,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Black,Black,Void,Void,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,
+	};
+}
+
 int Scene::consumeId() {
 	return _uniqueId++;
 }
