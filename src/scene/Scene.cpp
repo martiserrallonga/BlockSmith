@@ -46,7 +46,7 @@ void Scene::render() const {
 	const auto& renderer = Engine::Get().getRenderer();
 
 	const ImGuiIO& io = ImGui::GetIO();
-	SDL_RenderSetScale(renderer.get(), io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y); // TODO: Can be deleted
+	SDL_RenderSetScale(renderer.get(), io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y);
 
 	renderer.setColor(_backgroundColor);
 	SDL_RenderClear(renderer.get());
@@ -65,7 +65,6 @@ void Scene::renderInMenu() {
 	ImGui::Separator();
 	if (!ImGui::CollapsingHeader("Entities", ImGuiTreeNodeFlags_DefaultOpen)) return;
 
-	// TODO: Create a Color class to unify behavior
 	const auto cloneColor = static_cast<ImVec4>(ImColor{ 25, 100, 25, 255 });
 	const auto removeColor = static_cast<ImVec4>(ImColor{ 128, 30, 10, 255 });
 

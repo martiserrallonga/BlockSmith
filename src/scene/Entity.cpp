@@ -7,7 +7,7 @@
 #include <format>
 
 Entity::Entity() {
-	Log::Warning("Entity default constructor should not be called."); // TODO: Delete ctor
+	Log::Warning("Entity default constructor should not be called.");
 }
 
 Entity::Entity(const int id, std::string name, const SDL_Rect rect, const ImColor color)

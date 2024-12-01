@@ -51,7 +51,6 @@ void Window::processEvent(const SDL_WindowEvent& windowEvent) const {
 	}
 
 	if (windowEvent.event == SDL_WINDOWEVENT_CLOSE) {
-		// No need to handle it, SDL_QUIT is called too
 		return;
 	}
 	else if (windowEvent.event == SDL_WINDOWEVENT_SHOWN) {
