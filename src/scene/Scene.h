@@ -19,6 +19,9 @@ public:
 	void render() const;
 	void renderInMenu();
 
+	void onWindowShown(int width, int height);
+	void onWindowResized(int width, int height);
+	
 private:
 	int consumeId();
 

@@ -26,6 +26,14 @@ bool Engine::GameEngine::initialize() {
 	_scene = Scene();
 	_menu = Menu();
 
+	_window.addShownListener("Scene", [this](int width, int height) {
+		getScene().onWindowShown(width, height);
+		});
+
+	_window.addResizedListener("Scene", [this](int width, int height) {
+		getScene().onWindowResized(width, height);
+		});
+
 	return true;
 }
 
@@ -57,7 +65,9 @@ bool Engine::GameEngine::handleEvents() {
 	while (SDL_PollEvent(&e)) {
 		ImGui_ImplSDL2_ProcessEvent(&e);
 		if (e.type == SDL_QUIT) return false;
-		if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE && e.window.windowID == SDL_GetWindowID(_window.get())) return false;
+		if (e.type == SDL_WINDOWEVENT) {
+			_window.processEvent(e.window);
+		}
 	}
 
 	return true;
@@ -72,6 +82,10 @@ void Engine::GameEngine::render() {
 	_menu.render();
 
 	SDL_RenderPresent(_renderer.get());
+}
+
+Window& Engine::GameEngine::getWindow() {
+	return _window;
 }
 
 Renderer& Engine::GameEngine::getRenderer() {

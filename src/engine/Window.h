@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 
+#include <functional>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -14,6 +16,12 @@ public:
 
 	[[nodiscard]] SDL_Window* get() const;
 
+	SDL_Point getSize() const;
+
+	void processEvent(const SDL_WindowEvent& event) const;
+	void addShownListener(std::string key, std::function<void(int, int)> callback);
+	void addResizedListener(std::string key, std::function<void(int, int)> callback);
+
 	bool operator!() const;
 
 private:
@@ -23,4 +31,6 @@ private:
 	};
 
 	std::unique_ptr<SDL_Window, WindowDestroyer> _window;
+	std::map<std::string, std::function<void(int, int)>> _shownListeners;
+	std::map<std::string, std::function<void(int, int)>> _resizeListeners;
 };

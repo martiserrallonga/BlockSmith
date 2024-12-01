@@ -59,6 +59,9 @@ void Scene::render() const {
 void Scene::renderInMenu() {
 	ImGui::ColorEdit3("Background", &_backgroundColor.Value.x);
 
+	SDL_Point size = Engine::Get().getWindow().getSize();
+	ImGui::Text(std::format("Scene width and height: {} x {}", size.x, size.y).c_str());
+
 	ImGui::Separator();
 	if (!ImGui::CollapsingHeader("Entities", ImGuiTreeNodeFlags_DefaultOpen)) return;
 
@@ -98,6 +101,11 @@ void Scene::renderInMenu() {
 	}
 }
 
+void Scene::onWindowShown(int width, int height) {
+}
+
+void Scene::onWindowResized(int width, int height) {
+}
 int Scene::consumeId() {
 	return _uniqueId++;
 }

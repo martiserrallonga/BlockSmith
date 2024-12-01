@@ -18,6 +18,7 @@ namespace Engine
 		void update();
 		void render();
 
+		Window& getWindow();
 		Renderer& getRenderer();
 		Scene& getScene();
 

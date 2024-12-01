@@ -37,6 +37,45 @@ SDL_Window* Window::get() const {
 	return _window.get();
 }
 
+SDL_Point Window::getSize() const
+{
+	int width;
+	int height;
+	SDL_GetWindowSize(_window.get(), &width, &height);
+	return { width, height };
+}
+
+void Window::processEvent(const SDL_WindowEvent& windowEvent) const {
+	if (windowEvent.windowID != SDL_GetWindowID(_window.get())) {
+		return;
+	}
+
+	if (windowEvent.event == SDL_WINDOWEVENT_CLOSE) {
+		// No need to handle it, SDL_QUIT is called too
+		return;
+	}
+	else if (windowEvent.event == SDL_WINDOWEVENT_SHOWN) {
+		auto size = getSize();
+		for (const auto& [key, listener] : _shownListeners) {
+			listener(size.x, size.y);
+		}
+	}
+	else if (windowEvent.event == SDL_WINDOWEVENT_RESIZED) {
+		auto size = getSize();
+		for (const auto& [key, listener] : _resizeListeners) {
+			listener(size.x, size.y);
+		}
+	}
+}
+
+void Window::addShownListener(std::string key, std::function<void(int, int)> callback) {
+	_shownListeners.try_emplace(key, callback);
+}
+
+void Window::addResizedListener(std::string key, std::function<void(int, int)> callback) {
+	_resizeListeners.try_emplace(key, callback);
+}
+
 bool Window::operator!() const {
 	return !_window;
 }
