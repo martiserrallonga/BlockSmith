@@ -45,7 +45,8 @@ void Menu::render() {
 	}
 
 	_logLevel.renderInMenu();
-	
+
+	Engine::Get().renderInMenu();
 
 	ImGui::Text("Scene entities:");
 	Engine::Get().getScene().renderInMenu();

@@ -24,7 +24,7 @@ std::string Entity::getNameId() const {
 	return std::format("{}_{:0>3}", _name, _id);
 }
 
-const SDL_Point& Entity::getPosition() const {
+SDL_Point Entity::getPosition() const {
 	return { .x = _rect.x, .y = _rect.y };
 }
 

@@ -15,7 +15,7 @@ public:
 	const std::string& getName();
 	[[nodiscard]] std::string getNameId() const;
 
-	[[nodiscard]] const SDL_Point& getPosition() const;
+	[[nodiscard]] SDL_Point getPosition() const;
 	void addPosition(const SDL_Point& offset);
 	void setPosition(const SDL_Point& position);
 

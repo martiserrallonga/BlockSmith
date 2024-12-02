@@ -1,5 +1,4 @@
 #pragma once
-#include "Context.h"
 #include "Renderer.h"
 #include "Window.h"
 
@@ -17,6 +16,8 @@ namespace Engine
 		bool handleEvents();
 		void update();
 		void render();
+		void reloadWindow();
+		void renderInMenu();
 
 		Renderer& getRenderer();
 		Scene& getScene();
@@ -24,6 +25,17 @@ namespace Engine
 		void loadFont() const;
 
 	private:
+		struct ConfigData final : Json, IConfigData
+		{
+			std::string windowPath;
+			std::string rendererPath;
+
+			void read(Json configJson) override;
+			void save() override {}
+		};
+
+		ConfigData _configData;
+
 		Window _window;
 		Renderer _renderer;
 

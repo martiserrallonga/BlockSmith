@@ -1,5 +1,41 @@
 {
-  "title": "BlockSmith",
-  "width": 1280,
-  "height": 720
+	"title": "BlockSmith",
+	"width": 1280,
+	"height": 720,
+	"init_flags": {
+		"SDL_INIT_TIMER": true,
+		"SDL_INIT_AUDIO": false,
+		"SDL_INIT_VIDEO": true,
+		"SDL_INIT_JOYSTICK": false,
+		"SDL_INIT_HAPTIC": false,
+		"SDL_INIT_GAME_CONTROLLER": true,
+		"SDL_INIT_EVENTS": false,
+		"SDL_INIT_SENSOR": false
+	},
+	"create_flags": {
+		"SDL_WINDOW_FULLSCREEN": false,
+		"SDL_WINDOW_OPENGL": false,
+		"SDL_WINDOW_SHOWN": false,
+		"SDL_WINDOW_HIDDEN": false,
+		"SDL_WINDOW_BORDERLESS": false,
+		"SDL_WINDOW_RESIZABLE": true,
+		"SDL_WINDOW_MINIMIZED": false,
+		"SDL_WINDOW_MAXIMIZED": false,
+		"SDL_WINDOW_MOUSE_GRABBED": false,
+		"SDL_WINDOW_INPUT_FOCUS": false,
+		"SDL_WINDOW_MOUSE_FOCUS": false,
+		"SDL_WINDOW_FULLSCREEN_DESKTOP": false,
+		"SDL_WINDOW_FOREIGN": false,
+		"SDL_WINDOW_ALLOW_HIGH_DPI": true,
+		"SDL_WINDOW_MOUSE_CAPTURE": false,
+		"SDL_WINDOW_ALWAYS_ON_TOP": false,
+		"SDL_WINDOW_SKIP_TASKBAR": false,
+		"SDL_WINDOW_UTILITY": false,
+		"SDL_WINDOW_TOOLTIP": false,
+		"SDL_WINDOW_POPUP_MENU": false,
+		"SDL_WINDOW_KEYBOARD_GRABBED": false,
+		"SDL_WINDOW_VULKAN": false,
+		"SDL_WINDOW_METAL": false
+
+	}
 }
