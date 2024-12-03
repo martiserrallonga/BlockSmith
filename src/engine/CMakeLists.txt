@@ -9,6 +9,7 @@ set (SOURCES PRIVATE
 	GameEngine.h
 	Renderer.cpp
 	Renderer.h
+	RendererConfigData.h
 	Window.cpp
 	Window.h
 )

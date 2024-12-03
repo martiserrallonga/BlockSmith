@@ -5,7 +5,7 @@
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_sdlrenderer2.h>
 
-Renderer::Renderer(const Window& window, const std::string&) {
+Renderer::Renderer(const Window& window, const RendererConfigData& configData) {
 	_renderer.reset(SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED));
 }
 

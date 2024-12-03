@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RendererConfigData.h"
+
 #include <imgui.h>
 #include <SDL.h>
 
@@ -13,7 +15,7 @@ class Renderer
 {
 public:
 	Renderer() = default;
-	Renderer(const Window& window, const std::string& configFile);
+	Renderer(const Window& window, const RendererConfigData& configData);
 
 	[[nodiscard]] SDL_Renderer* get() const;
 

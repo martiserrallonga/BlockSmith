@@ -15,7 +15,7 @@ bool Engine::GameEngine::initialize() {
 		return false;
 	}
 
-	_renderer = Renderer(_window, "./config/renderer.json"); // TODO: renderer config
+	_renderer = Renderer(_window, { "./config/renderer.json" }); // TODO: renderer config
 	if (!_renderer) {
 		Log::Error(std::format("SDL Renderer initialization failed.")); // TODO: No SDL_GetError here?
 		return false;
