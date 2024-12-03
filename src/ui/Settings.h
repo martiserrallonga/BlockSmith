@@ -5,12 +5,12 @@
 class Renderer;
 class Window;
 
-class Menu
+class Settings
 {
 public:
-	Menu();
+	Settings();
 
-	void render();
+	void renderImGui();
 
 private:
 	int _counter = 0;

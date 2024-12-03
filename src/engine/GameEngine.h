@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Window.h"
 
-#include "Menu.h"
+#include "Settings.h"
 #include "Scene.h"
 
 
@@ -17,6 +17,7 @@ namespace Engine
 		bool handleEvents();
 		void update();
 		void render();
+		void renderImGui();
 
 		Window& getWindow();
 		Renderer& getRenderer();
@@ -28,7 +29,7 @@ namespace Engine
 		Window _window;
 		Renderer _renderer;
 
-		Menu _menu;
+		Settings _menu;
 		Scene _scene;
 	};
 }

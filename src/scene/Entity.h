@@ -21,7 +21,7 @@ public:
 
 	void update();
 	void render() const;
-	void renderInMenu();
+	void renderImGui();
 
 	Entity clone(int id);
 

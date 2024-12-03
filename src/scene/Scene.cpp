@@ -56,7 +56,7 @@ void Scene::render() const {
 	}
 }
 
-void Scene::renderInMenu() {
+void Scene::renderImGui() {
 	ImGui::ColorEdit3("Background", &_backgroundColor.Value.x);
 
 	SDL_Point size = Engine::Get().getWindow().getSize();
@@ -95,7 +95,7 @@ void Scene::renderInMenu() {
 		ImGui::PopStyleColor();
 
 		if (showEntity) {
-			entity->renderInMenu();
+			entity->renderImGui();
 			ImGui::TreePop();
 		}
 	}

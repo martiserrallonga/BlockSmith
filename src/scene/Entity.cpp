@@ -47,7 +47,7 @@ void Entity::render() const {
 	else SDL_RenderDrawRect(renderer.get(), &_rect);
 }
 
-void Entity::renderInMenu() {
+void Entity::renderImGui() {
 	ImGui::ColorEdit3("Color", &_color.Value.x);
 	ImGui::DragInt4("Rect", &_rect.x, 1.0f);
 	ImGui::Checkbox("Filled", &_fillRect);

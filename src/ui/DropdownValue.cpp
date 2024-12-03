@@ -9,7 +9,7 @@ DropdownValue::DropdownValue(std::string label, std::vector<std::string> enumKey
 	, _currentValue(defaultValue)
 	, _onValueChanges(std::move(callback)) {}
 
-void DropdownValue::renderInMenu() {
+void DropdownValue::renderImGui() {
 	if (!ImGui::BeginCombo("Log Level", _enumKeys.at(_currentValue).c_str())) return;
 
 	int nextValue = _currentValue;

@@ -24,7 +24,7 @@ bool Engine::GameEngine::initialize() {
 	Context::init(_window, _renderer);
 
 	_scene = Scene();
-	_menu = Menu();
+	_menu = Settings();
 
 	_window.addShownListener("Scene", [this](int width, int height) {
 		getScene().onWindowShown(width, height);
@@ -79,9 +79,12 @@ void Engine::GameEngine::update() {
 
 void Engine::GameEngine::render() {
 	_scene.render();
-	_menu.render();
+	_menu.renderImGui();
 
 	SDL_RenderPresent(_renderer.get());
+}
+
+void Engine::GameEngine::renderImGui() {
 }
 
 Window& Engine::GameEngine::getWindow() {
