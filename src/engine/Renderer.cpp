@@ -5,8 +5,18 @@
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_sdlrenderer2.h>
 
-Renderer::Renderer(const Window& window, const RendererConfigData& configData) {
-	_renderer.reset(SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED));
+Renderer::Renderer(const Window& window, std::string configPath)
+	: _configData(std::move(configPath))
+{
+	_configData.load();
+
+	Uint32 flags = 0;
+	flags |= _configData.flagSoftware ? SDL_RENDERER_SOFTWARE : 0;
+	flags |= _configData.flagAccelerated ? SDL_RENDERER_ACCELERATED : 0;
+	flags |= _configData.flagPresentVSync ? SDL_RENDERER_PRESENTVSYNC : 0;
+	flags |= _configData.flagTargetTexture ? SDL_RENDERER_TARGETTEXTURE : 0;
+
+	_renderer.reset(SDL_CreateRenderer(window.get(), -1, flags));
 }
 
 SDL_Renderer* Renderer::get() const {

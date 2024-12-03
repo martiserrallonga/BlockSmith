@@ -11,11 +11,11 @@
 bool Engine::GameEngine::initialize() {
 	_window = Window("./config/window.json");
 	if (!_window) {
-		Log::Error(std::format("SDL Window initialization failed: {}", SDL_GetError()));
+		Log::Error(std::format("SDL Window initialization failed: {}.", SDL_GetError()));
 		return false;
 	}
 
-	_renderer = Renderer(_window, { "./config/renderer.json" }); // TODO: renderer config
+	_renderer = Renderer(_window, "renderer.json");
 	if (!_renderer) {
 		Log::Error(std::format("SDL Renderer initialization failed.")); // TODO: No SDL_GetError here?
 		return false;

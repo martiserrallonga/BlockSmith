@@ -15,7 +15,7 @@ class Renderer
 {
 public:
 	Renderer() = default;
-	Renderer(const Window& window, const RendererConfigData& configData);
+	Renderer(const Window& window, std::string configPath);
 
 	[[nodiscard]] SDL_Renderer* get() const;
 
@@ -30,4 +30,5 @@ private:
 	};
 
 	std::unique_ptr<SDL_Renderer, RendererDestroyer> _renderer;
+	RendererConfigData _configData;
 };

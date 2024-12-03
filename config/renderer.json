@@ -1,0 +1,8 @@
+{
+	"flags": {
+		"SDL_RENDERER_SOFTWARE": false,
+		"SDL_RENDERER_ACCELERATED": true,
+		"SDL_RENDERER_PRESENT_VSYNC": true,
+		"SDL_RENDERER_TARGET_TEXTURE": false
+	}
+}

@@ -9,7 +9,7 @@
 
 Window::Window(std::string configFile) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
-		Log::Error(std::format("SDL initialization failed: {}", SDL_GetError()));
+		Log::Error(std::format("SDL initialization failed: {}.", SDL_GetError()));
 		return;
 	}
 
@@ -20,7 +20,7 @@ Window::Window(std::string configFile) {
 
 	std::ifstream file(configFile);
 	if (!file.is_open()) {
-		Log::Error(std::format("Config file {} not found", configFile));
+		Log::Error(std::format("Config file {} not found.", configFile));
 		return;
 	}
 	nlohmann::json configJson = nlohmann::json::parse(file);

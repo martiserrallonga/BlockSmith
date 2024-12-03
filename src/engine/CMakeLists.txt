@@ -7,6 +7,7 @@ set (SOURCES PRIVATE
 	EngineGetter.h
 	GameEngine.cpp
 	GameEngine.h
+	JsonWrapper.h
 	Renderer.cpp
 	Renderer.h
 	RendererConfigData.h
