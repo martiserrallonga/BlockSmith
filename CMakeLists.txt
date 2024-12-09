@@ -3,6 +3,8 @@
 project ("BlockSmith")
 add_executable (${PROJECT_NAME})
 
+# set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG=$<IF:$<CONFIG:Debug>,1,0>)
 
@@ -21,6 +23,8 @@ target_link_libraries (${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 add_custom_target (copy_config COMMAND ${CMAKE_COMMAND}
     -E copy_directory "${PROJECT_SOURCE_DIR}/config" "${CMAKE_BINARY_DIR}/config"
 )
+
+# file(WRITE "${CMAKE_BINARY_DIR}/.clang-tidy" "Checks: '-*'")
 
 add_dependencies (${PROJECT_NAME} copy_config)
 
