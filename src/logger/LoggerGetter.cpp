@@ -1,5 +1,6 @@
 #include "LoggerGetter.h"
 
+
 namespace Log
 {
 	void Error(const std::string& msg) {

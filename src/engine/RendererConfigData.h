@@ -1,8 +1,5 @@
 #pragma once
-
-#include "LoggerGetter.h"
 #include "JsonWrapper.h"
-
 #include <string>
 
 
@@ -16,9 +13,10 @@ struct RendererConfigData
 	bool flagTargetTexture = false;
 
 	RendererConfigData() = default;
-	RendererConfigData(std::string filePath)
-		: filePath(filePath)
-	{}
+
+	explicit RendererConfigData(std::string filePath)
+		: filePath(std::move(filePath)) {
+	}
 
 	bool load() {
 		auto config = Json::Parse(filePath);
@@ -31,7 +29,6 @@ struct RendererConfigData
 		return true;
 	}
 
-	void save() {
-
-	}
+	// ReSharper disable once CppMemberFunctionMayBeStatic
+	void save() {}
 };

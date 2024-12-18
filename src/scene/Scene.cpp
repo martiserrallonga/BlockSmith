@@ -2,21 +2,19 @@
 
 #include "EngineGetter.h"
 #include "LoggerGetter.h"
-
 #include <format>
-#include <optional>
 
 
 namespace Const
 {
-	constexpr SDL_Rect kDefaultRect{ 500, 200, 100, 100 };
-	constexpr ImColor kDefaultColor{ 120, 200, 120, 255 };
-	constexpr SDL_Point kNewEntityOffset{ 50, 50 };
+	constexpr SDL_Rect DefaultRect{ 500, 200, 100, 100 };
+	constexpr ImColor DefaultColor{ 120, 200, 120, 255 };
+	constexpr SDL_Point NewEntityOffset{ 50, 50 };
 }
 
 Scene::Scene() {
 	_backgroundColor = ImColor(0.45f, 0.55f, 0.60f, 1.00f);
-	addEntity(Entity(consumeId(), "square", Const::kDefaultRect, Const::kDefaultColor));
+	addEntity(Entity(consumeId(), "square", Const::DefaultRect, Const::DefaultColor));
 }
 
 void Scene::addEntity(Entity entity) {
@@ -25,7 +23,7 @@ void Scene::addEntity(Entity entity) {
 
 void Scene::cloneEntity(const std::unique_ptr<Entity>& entity) {
 	Entity clone = entity->clone(consumeId());
-	clone.addPosition(Const::kNewEntityOffset);
+	clone.addPosition(Const::NewEntityOffset);
 	addEntity(clone);
 }
 
@@ -59,8 +57,9 @@ void Scene::render() const {
 void Scene::renderImGui() {
 	ImGui::ColorEdit3("Background", &_backgroundColor.Value.x);
 
-	SDL_Point size = Engine::Get().getWindow().getSize();
-	ImGui::Text(std::format("Scene width and height: {} x {}", size.x, size.y).c_str());
+	auto [x, y] = Engine::Get().getWindow().getSize();
+	const auto text = std::format("Scene width and height: {} x {}", x, y);
+	ImGui::Text("%s", text.c_str());
 
 	ImGui::Separator();
 	if (!ImGui::CollapsingHeader("Entities", ImGuiTreeNodeFlags_DefaultOpen)) return;
@@ -101,11 +100,14 @@ void Scene::renderImGui() {
 	}
 }
 
-void Scene::onWindowShown(int width, int height) {
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void Scene::onWindowShown(int /*width*/, int /*height*/) {
 }
 
-void Scene::onWindowResized(int width, int height) {
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void Scene::onWindowResized(int /*width*/, int /*height*/) {
 }
+
 int Scene::consumeId() {
 	return _uniqueId++;
 }

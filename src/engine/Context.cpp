@@ -2,7 +2,6 @@
 
 #include "Renderer.h"
 #include "Window.h"
-
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_sdlrenderer2.h>
 
@@ -14,7 +13,7 @@ void Context::init(const Window& window, const Renderer& renderer)
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Game pad Controls
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();

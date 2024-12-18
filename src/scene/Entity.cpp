@@ -3,7 +3,6 @@
 #include "EngineGetter.h"
 #include "LoggerGetter.h"
 #include "Renderer.h"
-
 #include <format>
 
 Entity::Entity() {
@@ -24,7 +23,7 @@ std::string Entity::getNameId() const {
 	return std::format("{}_{:0>3}", _name, _id);
 }
 
-const SDL_Point& Entity::getPosition() const {
+SDL_Point Entity::getPosition() const {
 	return { .x = _rect.x, .y = _rect.y };
 }
 
@@ -38,6 +37,7 @@ void Entity::setPosition(const SDL_Point& position) {
 	_rect.y = position.y;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Entity::update() {}
 
 void Entity::render() const {

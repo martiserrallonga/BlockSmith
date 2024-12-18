@@ -1,10 +1,9 @@
 #pragma once
-
 #include "Entity.h"
-
 #include <memory>
 #include <queue>
 #include <vector>
+
 
 class Scene
 {
@@ -21,7 +20,7 @@ public:
 
 	void onWindowShown(int width, int height);
 	void onWindowResized(int width, int height);
-	
+
 private:
 	int consumeId();
 

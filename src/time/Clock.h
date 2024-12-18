@@ -1,11 +1,12 @@
 #pragma once
-#include <string>
 #include <chrono>
 #include <format>
+#include <string>
+
 
 namespace Clock
 {
-	inline std::string getCurrentTime()
+	inline std::string GetCurrentTime()
 	{
 		const auto now = std::chrono::system_clock::now();
 		const auto time = std::chrono::current_zone()->to_local(now);

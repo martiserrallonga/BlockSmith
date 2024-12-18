@@ -1,14 +1,12 @@
 #pragma once
-
 #include "LoggerGetter.h"
-
 #include <nlohmann/json.hpp>
 
 #include <fstream>
 
 
 namespace Const {
-	const std::string basePath = "./config/";
+	const std::string BasePath = "./config/";
 }
 
 // template <typename TJson, std::enable_if<nlohmann::detail::is_basic_json<TJson>::type>>
@@ -30,7 +28,7 @@ public:
 	}
 
 	void parse(std::string path) {
-		std::ifstream file(Const::basePath + path);
+		std::ifstream file(Const::BasePath + path);
 		if (!file.is_open()) {
 			Log::Error(std::format("Config file {} not found.", path));
 			return;

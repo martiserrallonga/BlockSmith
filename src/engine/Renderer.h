@@ -1,7 +1,5 @@
 #pragma once
-
 #include "RendererConfigData.h"
-
 #include <imgui.h>
 #include <SDL.h>
 
@@ -17,7 +15,7 @@ public:
 	Renderer() = default;
 	Renderer(const Window& window, std::string configPath);
 
-	[[nodiscard]] SDL_Renderer* get() const;
+	SDL_Renderer* get() const;
 
 	void setColor(const ImColor& color) const;
 

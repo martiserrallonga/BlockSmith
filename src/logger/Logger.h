@@ -2,9 +2,10 @@
 #include <string>
 #include <fstream>
 
+
 namespace Log
 {
-	enum class ELevel : int
+	enum class ELevel
 	{
 		Error = 0,
 		Warning,
