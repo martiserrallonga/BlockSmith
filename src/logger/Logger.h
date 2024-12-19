@@ -1,10 +1,11 @@
 #pragma once
-#include <string>
 #include <fstream>
+#include <string>
+
 
 namespace Log
 {
-	enum class ELevel : int
+	enum class ELevel
 	{
 		Error = 0,
 		Warning,

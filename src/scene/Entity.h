@@ -1,5 +1,4 @@
 #pragma once
-
 #include <imgui.h>
 #include <SDL.h>
 
@@ -13,19 +12,19 @@ public:
 	Entity(int id, std::string name, SDL_Rect rect, ImColor color);
 
 	const std::string& getName();
-	[[nodiscard]] std::string getNameId() const;
+	std::string getNameId() const;
 
-	[[nodiscard]] const SDL_Point& getPosition() const;
+	SDL_Point getPosition() const;
 	void addPosition(const SDL_Point& offset);
 	void setPosition(const SDL_Point& position);
 
 	void update();
 	void render() const;
-	void renderInMenu();
+	void renderImGui();
 
 	Entity clone(int id);
 
-	[[nodiscard]] bool getRemoved() const;
+	bool getRemoved() const;
 	void remove();
 
 private:

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <imgui.h>
 #include <SDL.h>
 
@@ -15,7 +14,7 @@ public:
 	Renderer() = default;
 	Renderer(const Window& window, const std::string& configFile);
 
-	[[nodiscard]] SDL_Renderer* get() const;
+	SDL_Renderer* get() const;
 
 	void setColor(const ImColor& color) const;
 

@@ -1,15 +1,15 @@
 #include "Window.h"
 
 #include "LoggerGetter.h"
-
 #include <nlohmann/json.hpp>
 
 #include <format>
 #include <fstream>
 
+
 Window::Window(std::string configFile) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
-		Log::Error(std::format("SDL initialization failed: {}", SDL_GetError()));
+		Log::Error(std::format("SDL initialization failed: {}.", SDL_GetError()));
 		return;
 	}
 
@@ -20,7 +20,7 @@ Window::Window(std::string configFile) {
 
 	std::ifstream file(configFile);
 	if (!file.is_open()) {
-		Log::Error(std::format("Config file {} not found", configFile));
+		Log::Error(std::format("Config file {} not found.", configFile));
 		return;
 	}
 	nlohmann::json configJson = nlohmann::json::parse(file);
@@ -50,30 +50,27 @@ void Window::processEvent(const SDL_WindowEvent& windowEvent) const {
 		return;
 	}
 
-	if (windowEvent.event == SDL_WINDOWEVENT_CLOSE) {
-		// No need to handle it, SDL_QUIT is called too
-		return;
-	}
+	if (windowEvent.event == SDL_WINDOWEVENT_CLOSE) {}
 	else if (windowEvent.event == SDL_WINDOWEVENT_SHOWN) {
-		auto size = getSize();
-		for (const auto& [key, listener] : _shownListeners) {
-			listener(size.x, size.y);
+		auto [x, y] = getSize();
+		for (const auto& listener : _shownListeners | std::views::values) {
+			listener(x, y);
 		}
 	}
 	else if (windowEvent.event == SDL_WINDOWEVENT_RESIZED) {
-		auto size = getSize();
-		for (const auto& [key, listener] : _resizeListeners) {
-			listener(size.x, size.y);
+		auto [x, y] = getSize();
+		for (const auto& listener : _resizeListeners | std::views::values) {
+			listener(x, y);
 		}
 	}
 }
 
 void Window::addShownListener(std::string key, std::function<void(int, int)> callback) {
-	_shownListeners.try_emplace(key, callback);
+	_shownListeners.try_emplace(std::move(key), callback);
 }
 
 void Window::addResizedListener(std::string key, std::function<void(int, int)> callback) {
-	_resizeListeners.try_emplace(key, callback);
+	_resizeListeners.try_emplace(std::move(key), callback);
 }
 
 bool Window::operator!() const {

@@ -1,7 +1,6 @@
 #include "Logger.h"
 
 #include "Clock.h"
-
 #include <iostream>
 
 
@@ -32,7 +31,7 @@ namespace Log
 		std::stringstream ss;
 		ss <<
 			'[' << level << ']' <<
-			'[' << Clock::getCurrentTime() << ']' <<
+			'[' << Clock::GetCurrentTime() << ']' <<
 			' ' << msg;
 
 		if (level <= _currentLevel) {

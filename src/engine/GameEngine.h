@@ -1,10 +1,8 @@
 #pragma once
-#include "Context.h"
 #include "Renderer.h"
-#include "Window.h"
-
-#include "Menu.h"
 #include "Scene.h"
+#include "Settings.h"
+#include "Window.h"
 
 
 namespace Engine
@@ -14,9 +12,10 @@ namespace Engine
 	public:
 		bool initialize();
 
-		bool handleEvents();
+		bool handleEvents() const;
 		void update();
 		void render();
+		void renderImGui();
 
 		Window& getWindow();
 		Renderer& getRenderer();
@@ -28,7 +27,7 @@ namespace Engine
 		Window _window;
 		Renderer _renderer;
 
-		Menu _menu;
+		Settings _settings;
 		Scene _scene;
 	};
 }

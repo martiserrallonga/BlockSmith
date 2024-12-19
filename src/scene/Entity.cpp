@@ -3,11 +3,10 @@
 #include "EngineGetter.h"
 #include "LoggerGetter.h"
 #include "Renderer.h"
-
 #include <format>
 
 Entity::Entity() {
-	Log::Warning("Entity default constructor should not be called."); // TODO: Delete ctor
+	Log::Warning("Entity default constructor should not be called.");
 }
 
 Entity::Entity(const int id, std::string name, const SDL_Rect rect, const ImColor color)
@@ -24,7 +23,7 @@ std::string Entity::getNameId() const {
 	return std::format("{}_{:0>3}", _name, _id);
 }
 
-const SDL_Point& Entity::getPosition() const {
+SDL_Point Entity::getPosition() const {
 	return { .x = _rect.x, .y = _rect.y };
 }
 
@@ -38,6 +37,7 @@ void Entity::setPosition(const SDL_Point& position) {
 	_rect.y = position.y;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Entity::update() {}
 
 void Entity::render() const {
@@ -47,7 +47,7 @@ void Entity::render() const {
 	else SDL_RenderDrawRect(renderer.get(), &_rect);
 }
 
-void Entity::renderInMenu() {
+void Entity::renderImGui() {
 	ImGui::ColorEdit3("Color", &_color.Value.x);
 	ImGui::DragInt4("Rect", &_rect.x, 1.0f);
 	ImGui::Checkbox("Filled", &_fillRect);

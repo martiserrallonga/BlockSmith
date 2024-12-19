@@ -1,5 +1,4 @@
 #pragma once
-
 #include <SDL.h>
 
 #include <functional>
@@ -14,11 +13,10 @@ public:
 	Window() = default;
 	explicit Window(std::string configFile);
 
-	[[nodiscard]] SDL_Window* get() const;
-
+	SDL_Window* get() const;
 	SDL_Point getSize() const;
 
-	void processEvent(const SDL_WindowEvent& event) const;
+	void processEvent(const SDL_WindowEvent& windowEvent) const;
 	void addShownListener(std::string key, std::function<void(int, int)> callback);
 	void addResizedListener(std::string key, std::function<void(int, int)> callback);
 

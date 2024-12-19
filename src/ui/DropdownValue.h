@@ -1,5 +1,4 @@
 #pragma once
-
 #include <functional>
 #include <string>
 #include <vector>
@@ -13,7 +12,7 @@ public:
 	DropdownValue() = default;
 	DropdownValue(std::string label, std::vector<std::string> enumKeys, int defaultValue = 0, Callback callback = nullptr);
 
-	void renderInMenu();
+	void renderImGui();
 
 private:
 	std::string _label;

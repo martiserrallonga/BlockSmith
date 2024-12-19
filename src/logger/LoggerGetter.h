@@ -1,6 +1,7 @@
 #pragma once
 #include "Logger.h"
 
+
 namespace Log
 {
 	void Error(const std::string& msg);
