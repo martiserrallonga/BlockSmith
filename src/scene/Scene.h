@@ -32,5 +32,11 @@ private:
 	int _uniqueId = 0;
 	std::vector<std::unique_ptr<Entity>> _entities;
 	std::queue<std::unique_ptr<Entity>> _pendingEntities;
-	std::vector<ImColor> _frameBuffer;
+
+	struct TextureDestroyer
+	{
+		void operator()(SDL_Texture* texture) const;
+	};
+
+	std::unique_ptr<SDL_Texture, TextureDestroyer> _frameBuffer;
 };
