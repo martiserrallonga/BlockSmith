@@ -113,21 +113,19 @@ void Scene::resetFrameBuffer(const int width, const int height) {
 	_entities.clear();
 	_uniqueId = 0;
 
-	// TODO: Replace values with the screen and pixel properties
-	const int pixelSize = 45;
-	const int frameBufferSize = 800;
+	const int pixelSize = std::min(width / 16, height / 16);
+	const int frameBufferSize = pixelSize * 16;
 	const SDL_Point frameBufferPosition{
-		.x = 400,
-		.y = 10,
+		.x = (width - frameBufferSize) / 2 ,
+		.y = (height - frameBufferSize) / 2,
 	};
 
 	for (int i = 0; i < _frameBuffer.size(); ++i) {
 		const SDL_Point pixelCoords{ i % 16 , i / 16 };
 
-		// TODO: Find each pixelPosition from pixel coordinates and framebuffer properties
 		const SDL_Point pixelPosition{
-			.x = 0,
-			.y = 0,
+			.x = pixelCoords.x * pixelSize + frameBufferPosition.x,
+			.y = pixelCoords.y * pixelSize + frameBufferPosition.y,
 		};
 
 		const SDL_Rect pixelRect = {
