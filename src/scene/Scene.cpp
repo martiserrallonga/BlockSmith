@@ -14,7 +14,8 @@ namespace Const
 
 Scene::Scene() {
 	_backgroundColor = ImColor(0.45f, 0.55f, 0.60f, 1.00f);
-	addEntity(Entity(consumeId(), "square", Const::DefaultRect, Const::DefaultColor));
+
+	initializeFrameBuffer();
 }
 
 void Scene::addEntity(Entity entity) {
@@ -49,6 +50,7 @@ void Scene::render() const {
 	renderer.setColor(_backgroundColor);
 	SDL_RenderClear(renderer.get());
 
+	SDL_SetRenderDrawBlendMode(renderer.get(), SDL_BLENDMODE_BLEND);
 	for (const auto& entity : _entities) {
 		entity->render();
 	}
@@ -99,12 +101,71 @@ void Scene::renderImGui() {
 	}
 }
 
-// ReSharper disable once CppMemberFunctionMayBeStatic
-void Scene::onWindowShown(int /*width*/, int /*height*/) {
+void Scene::onWindowShown(const int width, const int height) {
+	resetFrameBuffer(width, height);
 }
 
-// ReSharper disable once CppMemberFunctionMayBeStatic
-void Scene::onWindowResized(int /*width*/, int /*height*/) {
+void Scene::onWindowResized(const int width, const int height) {
+	resetFrameBuffer(width, height);
+}
+
+void Scene::resetFrameBuffer(const int width, const int height) {
+	_entities.clear();
+	_uniqueId = 0;
+
+	// TODO: Replace values with the screen and pixel properties
+	const int pixelSize = 45;
+	const int frameBufferSize = 800;
+	const SDL_Point frameBufferPosition{
+		.x = 400,
+		.y = 10,
+	};
+
+	for (int i = 0; i < _frameBuffer.size(); ++i) {
+		const SDL_Point pixelCoords{ i % 16 , i / 16 };
+
+		// TODO: Find each pixelPosition from pixel coordinates and framebuffer properties
+		const SDL_Point pixelPosition{
+			.x = 0,
+			.y = 0,
+		};
+
+		const SDL_Rect pixelRect = {
+			.x = pixelPosition.x,
+			.y = pixelPosition.y,
+			.w = pixelSize,
+			.h = pixelSize,
+		};
+
+		addEntity(Entity(consumeId(), "Pixel", pixelRect, _frameBuffer.at(i)));
+	}
+}
+
+void Scene::initializeFrameBuffer() {
+	ImColor Void = { 255,255,255,0 };
+	ImColor Black = { 0,0,0,255 };
+	ImColor White = { 255,255,255,255 };
+	ImColor Green = { 28,148,134,255 };
+	ImColor Red = { 206,52,52,255 };
+
+	_frameBuffer = {
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Green,Green,Black,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Green,Green,Green,Green,Black,Void,
+		Void,Void,Void,Void,Void,Void,Void,Black,Green,Green,Black,Green,Black,Black,Void,Void,
+		Void,Void,Void,Black,Black,Black,Black,Green,Black,Black,Black,Green,Black,Void,Void,Void,
+		Void,Void,Black,Red,Red,Red,Red,Black,Black,Black,Green,Black,Void,Void,Void,Void,
+		Void,Black,Red,Red,Red,Red,Red,Red,Black,Green,Black,Black,Void,Void,Void,Void,
+		Void,Black,Red,Red,Red,Red,Red,Black,Red,Red,Red,Red,Black,Void,Void,Void,
+		Void,Black,Red,White,Red,Red,Black,Red,Red,Red,Red,Red,Red,Black,Void,Void,
+		Void,Black,Red,Red,White,White,Black,Red,Red,Red,Red,Red,Red,Black,Void,Void,
+		Void,Void,Black,Red,Red,Red,Black,Red,White,Red,Red,Red,Red,Black,Void,Void,
+		Void,Void,Void,Black,Black,Black,Black,Red,Red,White,White,Red,Red,Black,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Black,Red,Red,Red,Red,Black,Void,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Black,Black,Void,Void,Void,Void,
+		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,
+	};
 }
 
 int Scene::consumeId() {
