@@ -54,6 +54,8 @@ void Scene::render() const {
 	for (const auto& entity : _entities) {
 		entity->render();
 	}
+
+	SDL_RenderCopy(renderer.get(), _frameBuffer.get(), nullptr, nullptr);
 }
 
 void Scene::renderImGui() {
@@ -101,73 +103,59 @@ void Scene::renderImGui() {
 	}
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Scene::onWindowShown(const int width, const int height) {
 	resetFrameBuffer(width, height);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Scene::onWindowResized(const int width, const int height) {
 	resetFrameBuffer(width, height);
 }
 
 void Scene::resetFrameBuffer(const int width, const int height) {
-	_entities.clear();
-	_uniqueId = 0;
+	_frameBuffer = std::unique_ptr<SDL_Texture, TextureDestroyer>(
+		SDL_CreateTexture(Engine::Get().getRenderer().get(),
+			SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING,
+			width, height));
 
-	// TODO: Replace values with the screen and pixel properties
-	const int pixelSize = 45;
-	const int frameBufferSize = 800;
-	const SDL_Point frameBufferPosition{
-		.x = 400,
-		.y = 10,
-	};
+	void* pixels;
+	int pitch; // The number of bytes in a row of pixel data
+	SDL_LockTexture(_frameBuffer.get(), nullptr, &pixels, &pitch);
+	const auto pixelData = static_cast<Uint32*>(pixels);
 
-	for (int i = 0; i < _frameBuffer.size(); ++i) {
-		const SDL_Point pixelCoords{ i % 16 , i / 16 };
+	Log::Debug(std::format("pitch: {}", pitch));
 
-		// TODO: Find each pixelPosition from pixel coordinates and framebuffer properties
-		const SDL_Point pixelPosition{
-			.x = 0,
-			.y = 0,
+	// TODO: Set the proper frame buffer size
+	const int frameBufferSize = 1000 * 1000;
+	for (int i = 0; i < frameBufferSize; ++i) {
+		// TODO: Find the pixel coordinates for each index
+		const SDL_Point pixelCoords{
+			.x = 30,
+			.y = 30,
 		};
 
-		const SDL_Rect pixelRect = {
-			.x = pixelPosition.x,
-			.y = pixelPosition.y,
-			.w = pixelSize,
-			.h = pixelSize,
+		// TODO: Make a red gradient in the 'x' axis and a green gradient in the 'y' axis
+		ImColor color{
+			 255,
+			 255,
+			 0,
+			 255,
 		};
 
-		addEntity(Entity(consumeId(), "Pixel", pixelRect, _frameBuffer.at(i)));
+		pixelData[i] = static_cast<ImU32>(color);
 	}
-}
 
-void Scene::initializeFrameBuffer() {
-	ImColor Void = { 255,255,255,0 };
-	ImColor Black = { 0,0,0,255 };
-	ImColor White = { 255,255,255,255 };
-	ImColor Green = { 28,148,134,255 };
-	ImColor Red = { 206,52,52,255 };
-
-	_frameBuffer = {
-		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,
-		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Void,Void,
-		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Green,Green,Black,Void,
-		Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Green,Green,Green,Green,Black,Void,
-		Void,Void,Void,Void,Void,Void,Void,Black,Green,Green,Black,Green,Black,Black,Void,Void,
-		Void,Void,Void,Black,Black,Black,Black,Green,Black,Black,Black,Green,Black,Void,Void,Void,
-		Void,Void,Black,Red,Red,Red,Red,Black,Black,Black,Green,Black,Void,Void,Void,Void,
-		Void,Black,Red,Red,Red,Red,Red,Red,Black,Green,Black,Black,Void,Void,Void,Void,
-		Void,Black,Red,Red,Red,Red,Red,Black,Red,Red,Red,Red,Black,Void,Void,Void,
-		Void,Black,Red,White,Red,Red,Black,Red,Red,Red,Red,Red,Red,Black,Void,Void,
-		Void,Black,Red,Red,White,White,Black,Red,Red,Red,Red,Red,Red,Black,Void,Void,
-		Void,Void,Black,Red,Red,Red,Black,Red,White,Red,Red,Red,Red,Black,Void,Void,
-		Void,Void,Void,Black,Black,Black,Black,Red,Red,White,White,Red,Red,Black,Void,Void,
-		Void,Void,Void,Void,Void,Void,Void,Black,Red,Red,Red,Red,Black,Void,Void,Void,
-		Void,Void,Void,Void,Void,Void,Void,Void,Black,Black,Black,Black,Void,Void,Void,Void,
-		Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,Void,
-	};
+	SDL_UnlockTexture(_frameBuffer.get());
 }
 
 int Scene::consumeId() {
 	return _uniqueId++;
+}
+
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void Scene::initializeFrameBuffer() {}
+
+void Scene::TextureDestroyer::operator()(SDL_Texture* texture) const {
+	SDL_DestroyTexture(texture);
 }
