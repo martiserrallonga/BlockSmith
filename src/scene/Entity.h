@@ -18,6 +18,9 @@ public:
 	void addPosition(const SDL_Point& offset);
 	void setPosition(const SDL_Point& position);
 
+	bool isFilled() const { return _fillRect; }
+	void setFilled(bool filled) { _fillRect = filled; }
+
 	void update();
 	void render() const;
 	void renderImGui();

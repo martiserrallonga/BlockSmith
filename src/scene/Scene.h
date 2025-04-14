@@ -24,9 +24,13 @@ public:
 private:
 	int consumeId();
 
+	void resetFrameBuffer(int width, int height);
+	void initializeFrameBuffer();
+
 	ImColor _backgroundColor;
 
 	int _uniqueId = 0;
 	std::vector<std::unique_ptr<Entity>> _entities;
 	std::queue<std::unique_ptr<Entity>> _pendingEntities;
+	std::vector<ImColor> _frameBuffer;
 };

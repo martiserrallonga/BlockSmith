@@ -48,7 +48,7 @@ void Entity::render() const {
 }
 
 void Entity::renderImGui() {
-	ImGui::ColorEdit3("Color", &_color.Value.x);
+	ImGui::ColorEdit4("Color", &_color.Value.x);
 	ImGui::DragInt4("Rect", &_rect.x, 1.0f);
 	ImGui::Checkbox("Filled", &_fillRect);
 }
